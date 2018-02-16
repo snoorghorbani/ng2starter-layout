@@ -1,0 +1,45 @@
+﻿<mat-list class="main-menu-container">
+  <div *ngIf="authenticated | async">
+    <a *ngFor="let item of routes" (click)="closeSidebar.emit()" routerLinkActive="active" mat-list-item [routerLink]="[item.route]">
+      <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+      <span mdLine>{{item.title}}</span>
+    </a>
+  </div>
+
+  <a [@menuItem]="customerMenuItemStatus" *ngIf="signinService.is_admin()" routerLinkActive="active" mat-list-item (click)='changeMenuState()' routerLink="/admin/user/managment">
+    <mat-icon mat-list-icon>add_shopping_cart</mat-icon>
+    <span *ngIf="!dataEntryMode" mdLine>
+      مدیریت
+      <span *ngIf="!(customer$ | async).Email">
+        کاربر
+      </span>
+      <span *ngIf="(customer$ | async).Email">
+        {{(customer$ | async).Email}}
+      </span>
+      <mat-icon id="clearUserMenuItem" *ngIf="(customerStatus$ | async) == 'succeed'" (click)='clearUserMobile()'>close</mat-icon>
+    </span>
+    <form *ngIf="dataEntryMode">
+      <mat-input-container>
+        <input #customerMobileInput placeholder="پست الکترونیکی" matInput name="customerMobile" [(ngModel)]="customerMobile"
+          (ngModelChange)="searchUser()"  (blur)="onUserItemBlur()">
+          <!-- (ngModelChange)="searchUser()" (blur)="onUserItemBlur()" (keyup)="searchUser($event)"> -->
+      </mat-input-container>
+
+      <div id="userErrorMessage" *ngIf="(customerStatus$ | async) == 'failed'">
+        کاربر وجود ندارد.
+      </div>
+    </form>
+  </a>
+  <a [@childMenu]='customerStatus' routerLinkActive="active" mat-list-item [routerLink]="['admin', 'user', customerMobile, 'profile-edit']">
+    <mat-icon mat-list-icon>blur_on</mat-icon>
+    <span mdLine>ویرایش پروفایل</span>
+  </a>
+  <a [@childMenu]='customerStatus' routerLinkActive="active" mat-list-item [routerLink]="['admin', 'user', customerMobile, 'change-password']">
+    <mat-icon mat-list-icon>lock</mat-icon>
+    <span mdLine>تغییر کلمه عبور</span>
+  </a>
+  <a [@childMenu]='customerStatus' routerLinkActive="active" mat-list-item [routerLink]="['payment', customerMobile, 'success-payment-report']">
+    <mat-icon mat-list-icon>done_all</mat-icon>
+    <span mdLine>گزارش پرداخت های موفق</span>
+  </a>
+</mat-list>

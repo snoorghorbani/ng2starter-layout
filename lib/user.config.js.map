@@ -1,0 +1,1 @@
+{"version":3,"file":"user.config.js","sourceRoot":"","sources":["../dist/user.config.ts"],"names":[],"mappings":";;AAAA,sCAA+C;AAalC,QAAA,qBAAqB,GAAqB;IACtD,SAAS,EAAE;;QAEV,cAAc,EAAE,EAAE;QAClB,WAAW,EAAE,EAAE;QACf,WAAW,EAAE,EAAE;QACf,kBAAkB,EAAE,EAAE;KAEtB;CACD;AAEY,QAAA,mBAAmB,GAAG,IAAI,qBAAc,CAAmB,kBAAkB,CAAC"}

@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{"State":{"__symbolic":"interface"},"initialState":{"loaded":false,"data":{"__symbolic":"new","expression":{"__symbolic":"reference","module":"../models","name":"UserModel","line":9,"character":11}}},"userReducer":{"__symbolic":"function"},"getUser":{"__symbolic":"error","message":"Lambda not supported","line":35,"character":23}}}]
