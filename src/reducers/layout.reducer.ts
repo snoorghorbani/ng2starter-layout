@@ -1,5 +1,5 @@
 import * as layout from "../actions/layout";
-import { LayoutConfigModel } from "app/models/config";
+import { LayoutConfigModel } from "@soushians/config";
 
 export interface State extends LayoutConfigModel {}
 

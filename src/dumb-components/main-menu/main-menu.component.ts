@@ -2,15 +2,13 @@ import { Component, Output, EventEmitter, Input, OnInit, ViewChild, ElementRef, 
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { Store } from "@ngrx/store";
+import { Routes } from "@angular/router";
 
-import * as appReducer from "app/reducers";
 import * as authReducer from "@soushians/authentication";
-import * as fromUser from "@soushians/user";
-import { ProfileViewModel, UserModel } from "app/models/user";
+import * as layoutReducer from "../../reducers";
 import { trigger, state, style, transition, animate } from "@angular/animations";
 import { responseStatusTypes } from "@soushians/shared";
 import { SigninService } from "@soushians/authentication";
-import { ClearSearchedUser, Search } from "@soushians/user";
 
 @Component({
 	selector: "layout-main-menu",
@@ -60,67 +58,18 @@ export class MainMenuComponent implements AfterViewInit {
 
 	@Input() authenticated: Observable<boolean>;
 
-	user$: Observable<any>;
-	dataEntryMode = false;
-	customerMobile: string;
-	customer$: Observable<UserModel>;
 	customerStatus$: Observable<responseStatusTypes>;
-	customerStatus: "active" | "inactive" = "inactive";
-	customerMenuItemStatus: "active" | "inactive" = "inactive";
-	routes = [];
+	routes: any = routes;
 
 	@ViewChild("customerMobileInput") customerMobileInput: ElementRef;
-	constructor(private store: Store<appReducer.State>, public signinService: SigninService) {
-		this.user$ = this.store.select(authReducer.getUser);
-		this.customer$ = this.store.select(fromUser.getUserInfo);
-		this.customerStatus$ = this.store.select(fromUser.getSearchStatus);
-	}
+	constructor(private store: Store<layoutReducer.State>, public signinService: SigninService) {}
 
-	ngAfterViewInit() {
-		this.user$.subscribe((data) => {
-			this.routes = routes.filter((route) =>
-				data.Roles.some((customerRole) => (route.roles as any).includes(customerRole))
-			);
-		});
-		this.customer$.subscribe((data) => {
-			if (!("_id" in data)) return;
-			this.customerStatus = "active";
-			this.customerMobile = data.Email;
-			this.exitDataEntryMode();
-		});
-	}
-	private enterDataEntryMode() {
-		this.customerMenuItemStatus = "active";
-		this.dataEntryMode = true;
-	}
-	private exitDataEntryMode() {
-		this.customerMenuItemStatus = "inactive";
-		this.dataEntryMode = false;
-	}
-	changeMenuState() {
-		this.enterDataEntryMode();
-		setTimeout(() => {
-			this.customerMobileInput.nativeElement.focus();
-		}, 222);
-	}
-	clearUserMobile() {
-		this.customerMobile = "";
-		this.customerStatus = "inactive";
-		this.store.dispatch(new ClearSearchedUser());
-	}
-	onUserItemBlur() {
-		this.exitDataEntryMode();
-	}
-	searchUser() {
-		if (this.customerMobile.endsWith("@rasana.ir")) {
-			this.store.dispatch(new Search({ Email: this.customerMobile } as ProfileViewModel.Request));
-		}
-	}
+	ngAfterViewInit() {}
 }
 
 var routes = [
 	{
-		route: "/diagrams",
+		route: "/",
 		icon: "multiline_chart",
 		roles: [ "Admin", "User" ],
 		title: "صفحه اصلی"

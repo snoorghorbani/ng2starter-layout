@@ -18,7 +18,10 @@ export {
 	OpenSidenavAction,
 	CloseSidenavAction,
 	ChangeSideNavMode,
-	ChangeLayout
+	ChangeLayout,
+	CloseSecondSidenavAction,
+	ChangeSecondSidenavMode,
+	OpenSecondSidenavAction
 } from "./actions";
 
 //components
