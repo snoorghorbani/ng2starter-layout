@@ -19,8 +19,6 @@ export class LayoutConfigurationService {
 	config$ = new BehaviorSubject(this._config);
 
 	constructor(@Inject(MODULE_CONFIG_TOKEN) configFile, private store: Store<ConfigState>) {
-		debugger;
-
 		this._config = Object.assign({}, MODULE_DEFAULT_CONFIG, configFile);
 		this.config$.next(this._config);
 

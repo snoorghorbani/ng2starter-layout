@@ -11,7 +11,7 @@ import { responseStatusTypes } from "@soushians/shared";
 import { SigninService } from "@soushians/authentication";
 
 @Component({
-	selector: "layout-main-menu",
+	selector: "ngs-layout-main-menu",
 	templateUrl: "./main-menu.component.html",
 	styleUrls: [ "./main-menu.component.css" ],
 	animations: [

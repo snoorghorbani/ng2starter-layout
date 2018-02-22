@@ -81,10 +81,10 @@ import { MODULE_CONFIG_TOKEN, LayoutModuleConfig } from "./layout.config";
 		TitleComponent
 	]
 })
-export class LayoutModule {
+export class NgsLayoutModule {
 	static forRoot(config?: LayoutModuleConfig): ModuleWithProviders {
 		return {
-			ngModule: RootLayoutModule,
+			ngModule: RootNgsLayoutModule,
 			providers: [ { provide: MODULE_CONFIG_TOKEN, useValue: config }, LayoutConfigurationService ]
 		};
 	}
@@ -92,18 +92,11 @@ export class LayoutModule {
 
 @NgModule({
 	imports: [
-		LayoutModule,
+		NgsLayoutModule,
 		StoreModule.forFeature("layout", LayoutReducers),
 		EffectsModule.forFeature([])
 		// RoutingModule
 	],
-	exports: [
-		MainMenuComponent,
-		SearchBoxComponent,
-		LogoContainerComponent,
-		ToolbarMenuComponent,
-		FooterComponent,
-		TitleComponent
-	]
+	exports: [ NgsLayoutModule ]
 })
-export class RootLayoutModule {}
+export class RootNgsLayoutModule {}
