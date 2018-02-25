@@ -1,6 +1,6 @@
 {
 	"name": "@soushians/layout",
-	"version": "1.0.15",
+	"version": "2.0.0",
 	"description": "",
 	"main": "lib/index.js",
 	"typings": [ "./lib/index.d.ts" ],
@@ -13,34 +13,19 @@
 		"minify": "uglifyjs lib/bundles.umd.js --screw-ie8 --compress --mangle --comments --output lib/bundles.umd.min.js",
 		"build": "gulp &&  npm run transpile && npm run package && npm run minify"
 	},
-	"dependencies": {
-		"@soushians/infra": "^1.x.x",
-		"@soushians/shared": "^1.x.x",
-		"@soushians/config": "^1.x.x",
+	"dependencies": {},
+	"peerDependencies": {
+		"@soushians/starter": "2.x.x"
+	},
+	"devDependencies": {
+		"@soushians/infra": "^2.x.x",
+		"@soushians/shared": "^2.x.x",
+		"@soushians/config": "^2.x.x",
 		"@ngrx/effects": "^4.x.x",
 		"@ngrx/router-store": "^4.x.x",
 		"@ngrx/store": "^4.x.x",
 		"@ngrx/store-devtools": "^4.x.x",
-		"rxjs": "^5.x.x"
-	},
-	"peerDependencies": {
-		"@angular/animations": "^5.x.x",
-		"@angular/cdk": "^5.x.x",
-		"@angular/common": "^5.x.x",
-		"@angular/compiler": "^5.x.x",
-		"@angular/compiler-cli": "^5.x.x",
-		"@angular/core": "^5.x.x",
-		"@angular/flex-layout": "^2.0.0-beta.10-4905443",
-		"@angular/forms": "^5.x.x",
-		"@angular/http": "^5.x.x",
-		"@angular/language-service": "^5.x.x",
-		"@angular/material": "^5.x.x",
-		"@angular/platform-browser": "^5.x.x",
-		"@angular/platform-browser-dynamic": "^5.x.x",
-		"@angular/router": "^5.x.x",
-		"@angular/service-worker": "^5.x.x"
-	},
-	"devDependencies": {
+		"rxjs": "^5.x.x",
 		"@types/node": "^9.4.x",
 		"gulp": "^4.x.x",
 		"gulp-copy": "^1.x.x",
