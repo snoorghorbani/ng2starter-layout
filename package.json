@@ -2,6 +2,7 @@
 	"name": "@soushians/layout",
 	"version": "2.0.0",
 	"description": "",
+	"keywords": [ "Angular", "Starter", "MEAN", "MongoDB" ],
 	"main": "lib/index.js",
 	"typings": [ "./lib/index.d.ts" ],
 	"scripts": {
@@ -39,5 +40,15 @@
 		"url": "https://github.com/snoorghorbani/ng2starter-layout.git"
 	},
 	"author": "soushians noorghorbani <snoorghorbani@gmail.com>",
+	"contributors": [
+		{
+			"name": "nono khatiri",
+			"email": "nonokhatiri@yahoo.com"
+		},
+		{
+			"name": "pegah khavarifar",
+			"email": "pegah.khf@gmail.com"
+		}
+	],
 	"license": "MIT"
 }
