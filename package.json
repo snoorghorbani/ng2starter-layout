@@ -1,18 +1,20 @@
 {
 	"name": "@soushians/layout",
-	"version": "2.0.0",
+	"version": "2.0.10",
 	"description": "",
 	"keywords": [ "Angular", "Starter", "MEAN", "MongoDB" ],
 	"main": "lib/index.js",
 	"typings": [ "./lib/index.d.ts" ],
 	"scripts": {
-		"prepublish": "npm run clean && npm run build && npm run clean",
+		"prepublish": "npm run clean-all && npm run build && npm run clean",
 		"watch": "tsc -p src -w",
+		"clean-all": "rimraf ./dist && rimraf ./lib",
 		"clean": "rimraf ./dist",
 		"transpile": "ngc -p dist",
 		"package": "rollup -c",
 		"minify": "uglifyjs lib/bundles.umd.js --screw-ie8 --compress --mangle --comments --output lib/bundles.umd.min.js",
-		"build": "gulp &&  npm run transpile && npm run package && npm run minify"
+		"build": "gulp &&  npm run transpile && npm run package && npm run minify",
+		"fake_publish": "npm run clean-all && gulp && npm run transpile  && gulp fake-publish"
 	},
 	"dependencies": {},
 	"peerDependencies": {

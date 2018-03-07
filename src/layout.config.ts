@@ -1,27 +1,38 @@
 ﻿import { InjectionToken } from "@angular/core";
 
-export interface LayoutModuleConfig {
-	showMainSidenav: boolean;
-	showSecondSideNav: boolean;
-	secondSideNavMode: string;
-	mainSideNavMode: string;
-	mainSideNavItems: any[];
-	showLeftNavBar: boolean;
-	stickyLeftNavBar: boolean;
-	layoutMode: string;
-	title: string;
-}
+import { LayoutConfigModel } from "@soushians/config";
+
+export interface LayoutModuleConfig extends LayoutConfigModel {}
 
 export const MODULE_DEFAULT_CONFIG: LayoutModuleConfig = {
 	showMainSidenav: false,
 	showSecondSideNav: true,
 	secondSideNavMode: "over", //| "push" | "side",
 	mainSideNavMode: "over", //| "push" | "side",
-	mainSideNavItems: [],
 	showLeftNavBar: false,
 	stickyLeftNavBar: false,
 	layoutMode: "with-margin", // | "without-margin" | "default",
-	title: ""
+	title: "",
+	menuItems: [
+		{
+			route: "/",
+			icon: "multiline_chart",
+			roles: [ "Admin", "User" ],
+			title: "صفحه اصلی"
+		},
+		{
+			route: "/configs",
+			icon: "settings",
+			roles: [ "Admin" ],
+			title: "تنظیمات"
+		},
+		{
+			route: "/source",
+			icon: "device_hub",
+			roles: [ "Admin" ],
+			title: "آدرس سرویس ها"
+		}
+	]
 };
 
 export const MODULE_CONFIG_TOKEN = new InjectionToken<LayoutModuleConfig>("LayoutModuleConfig");

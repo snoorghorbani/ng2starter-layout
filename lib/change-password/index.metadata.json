@@ -1,1 +1,0 @@
-[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./change-password-container"},{"from":"./change-password"},{"from":"./change-password.effects"},{"from":"./change-password.reducer"},{"from":"./change-password.actions"}]}]

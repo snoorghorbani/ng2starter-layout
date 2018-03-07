@@ -1,14 +1,16 @@
-import { Component, Output, EventEmitter, Input, OnInit, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
+import { Component, Output, EventEmitter, Input, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { Store } from "@ngrx/store";
 import { Routes } from "@angular/router";
-
-import * as authReducer from "@soushians/authentication";
-import * as layoutReducer from "../../reducers";
 import { trigger, state, style, transition, animate } from "@angular/animations";
+
 import { responseStatusTypes } from "@soushians/shared";
 import { SigninService } from "@soushians/authentication";
+
+import * as layoutReducer from "../../reducers";
+import { LayoutConfigurationService } from "../../services";
+import { LayoutModuleConfig } from "../../layout.config";
 
 @Component({
 	selector: "ngs-layout-main-menu",
@@ -53,37 +55,18 @@ import { SigninService } from "@soushians/authentication";
 		])
 	]
 })
-export class MainMenuComponent implements AfterViewInit {
+export class MainMenuComponent {
 	@Output() closeSidebar = new EventEmitter();
 
 	@Input() authenticated: Observable<boolean>;
 
 	customerStatus$: Observable<responseStatusTypes>;
-	routes: any = routes;
+	routes: any = this.configurationService.config$.map((config) => config.menuItems);
 
 	@ViewChild("customerMobileInput") customerMobileInput: ElementRef;
-	constructor(private store: Store<layoutReducer.State>, public signinService: SigninService) {}
-
-	ngAfterViewInit() {}
+	constructor(
+		private store: Store<layoutReducer.State>,
+		public signinService: SigninService,
+		public configurationService: LayoutConfigurationService
+	) {}
 }
-
-var routes = [
-	{
-		route: "/",
-		icon: "multiline_chart",
-		roles: [ "Admin", "User" ],
-		title: "صفحه اصلی"
-	},
-	{
-		route: "/configs",
-		icon: "settings",
-		roles: [ "Admin" ],
-		title: "تنظیمات"
-	},
-	{
-		route: "/source",
-		icon: "device_hub",
-		roles: [ "Admin" ],
-		title: "آدرس سرویس ها"
-	}
-];

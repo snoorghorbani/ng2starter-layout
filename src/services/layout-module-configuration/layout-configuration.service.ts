@@ -8,6 +8,7 @@ import { MODULE_CONFIG_TOKEN, MODULE_DEFAULT_CONFIG } from "../../layout.config"
 import { getlayoutModuleConfig, ConfigState } from "@soushians/config";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { UpdateLayoutConfigAction } from "../../actions";
+import { LayoutModuleConfig } from "../../layout.config";
 
 @Injectable()
 export class LayoutConfigurationService {
@@ -16,7 +17,7 @@ export class LayoutConfigurationService {
 	get config() {
 		return this._config;
 	}
-	config$ = new BehaviorSubject(this._config);
+	config$ = new BehaviorSubject<LayoutModuleConfig>(this._config);
 
 	constructor(@Inject(MODULE_CONFIG_TOKEN) configFile, private store: Store<ConfigState>) {
 		this._config = Object.assign({}, MODULE_DEFAULT_CONFIG, configFile);

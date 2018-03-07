@@ -91,12 +91,7 @@ export class NgsLayoutModule {
 }
 
 @NgModule({
-	imports: [
-		NgsLayoutModule,
-		StoreModule.forFeature("layout", LayoutReducers),
-		EffectsModule.forFeature([])
-		// RoutingModule
-	],
+	imports: [ NgsLayoutModule, StoreModule.forFeature("layout", LayoutReducers), EffectsModule.forFeature([]) ],
 	exports: [ NgsLayoutModule ]
 })
 export class RootNgsLayoutModule {}

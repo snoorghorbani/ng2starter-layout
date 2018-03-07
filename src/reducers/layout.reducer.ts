@@ -8,11 +8,11 @@ const initialState: State = {
 	showSecondSideNav: false,
 	secondSideNavMode: "over",
 	mainSideNavMode: "over",
-	mainSideNavItems: [],
 	showLeftNavBar: false,
 	stickyLeftNavBar: false,
 	layoutMode: "default",
-	title: ""
+	title: "",
+	menuItems: []
 };
 
 export function Reducer(state = initialState, action: layout.Actions): State {
