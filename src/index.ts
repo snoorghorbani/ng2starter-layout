@@ -21,7 +21,9 @@ export {
 	ChangeLayout,
 	CloseSecondSidenavAction,
 	ChangeSecondSidenavMode,
-	OpenSecondSidenavAction
+	OpenSecondSidenavAction,
+	ChangeToolbatToComfortableModeAction,
+	ChangeToolbatToCompactModeAction
 } from "./actions";
 
 //components

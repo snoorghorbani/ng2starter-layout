@@ -7,7 +7,10 @@ gulp.task("copy-src", function() {
 });
 
 gulp.task("fake-publish", function() {
-	return gulp.src("lib/**/*").pipe(gulpCopy("../starter/node_modules/@soushians/layout/lib", { prefix: 1 }));
+	// return gulp.src("lib/**/*").pipe(gulpCopy("../starter/client/node_modules/@soushians/layout/lib", { prefix: 1 }));
+	return gulp
+		.src("lib/**/*")
+		.pipe(gulpCopy("../../OnlineInsurance/client/node_modules/@soushians/layout/lib", { prefix: 1 }));
 });
 
 gulp.task("inline-templates", function() {
