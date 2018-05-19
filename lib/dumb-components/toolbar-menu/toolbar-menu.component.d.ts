@@ -3,6 +3,7 @@ import { Location } from "@angular/common";
 import { Observable } from "rxjs/Observable";
 import { FeatureState } from "../../reducers";
 import { LayoutConfigurationService } from "../../services";
+import { State as toolbarState } from "../../reducers/toolbar.reducer";
 export declare class ToolbarMenuComponent {
     private document;
     private _location;
@@ -15,6 +16,8 @@ export declare class ToolbarMenuComponent {
     toolbarAnimationState: Observable<string>;
     menuItems$: Observable<any[]>;
     lastScroll: number;
+    config: toolbarState;
+    config$: Observable<toolbarState>;
     constructor(document: Document, _location: Location, store: Store<FeatureState>, configurationService: LayoutConfigurationService);
     onWindowScroll(): void;
     signout(): void;

@@ -23,7 +23,9 @@ export {
 	ChangeSecondSidenavMode,
 	OpenSecondSidenavAction,
 	ChangeToolbatToComfortableModeAction,
-	ChangeToolbatToCompactModeAction
+	ChangeToolbatToCompactModeAction,
+	DisableComfortableModeAction,
+	EnableComfortableModeAction
 } from "./actions";
 
 //components

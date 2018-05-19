@@ -15,12 +15,15 @@ import {
 	ChangeToolbatToCompactModeAction,
 	ChangeToolbatToSummaryModeAction
 } from "../../actions";
-import { FeatureState, getShowSecondSidebarStatus } from "../../reducers";
+import { FeatureState, getShowSecondSidebarStatus, getLayoutToolbar } from "../../reducers";
 import { trigger, state, transition, style, animate } from "@angular/animations";
 import { from } from "rxjs/observable/from";
 import { DOCUMENT } from "@angular/platform-browser";
-import { LayoutConfigurationService } from "../../services";
 import { fromEvent } from "rxjs/observable/fromEvent";
+
+import { LayoutConfigurationService } from "../../services";
+import { State as toolbarState } from "../../reducers/toolbar.reducer";
+import { of } from "rxjs/observable/of";
 
 const menuState = {
 	comfortable: "comfortable",
@@ -79,6 +82,8 @@ export class ToolbarMenuComponent {
 	toolbarAnimationState: Observable<string>;
 	menuItems$: Observable<any[]>;
 	lastScroll: number;
+	config: toolbarState;
+	config$: Observable<toolbarState>;
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
 		private _location: Location,
@@ -86,28 +91,36 @@ export class ToolbarMenuComponent {
 		public configurationService: LayoutConfigurationService
 	) {
 		this.store.dispatch(new ChangeToolbatToComfortableModeAction());
+		this.config$ = this.store.select(getLayoutToolbar);
+		this.config$.subscribe((config) => (this.config = config));
 		this.lastScroll = this.document.body.scrollTop;
 		this.showSecondSidenav = this.store.select(getShowSecondSidebarStatus);
 		this.showMainSidenav = this.store.select(fromLayout.getShowMainSidenav);
 		this.toolbarAnimationState = this.store.select(fromLayout.getLayoutToolbarMode);
 		this.menuItems$ = this.configurationService.config$.map((config) => config.menuItems);
+		fromEvent(this.document.body, "scroll").subscribe(() => {
+			debugger;
+			let scrolledAmount = this.document.body.scrollTop;
+			if (scrolledAmount == 0) {
+				if (this.config.mode == "comfortable") return;
+				this.store.dispatch(new ChangeToolbatToComfortableModeAction());
+			} else if (scrolledAmount < 128) {
+				if (this.config.mode == "compact") return;
+				this.store.dispatch(new ChangeToolbatToCompactModeAction());
+			} else if (scrolledAmount > this.lastScroll) {
+				if (this.config.mode == "summary") return;
+				this.store.dispatch(new ChangeToolbatToSummaryModeAction());
+			} else {
+				if (this.config.mode == "compact") return;
+				this.store.dispatch(new ChangeToolbatToCompactModeAction());
+			}
+			this.lastScroll = this.document.body.scrollTop;
+		});
 	}
 
 	@HostListener("body:scroll", [])
 	onWindowScroll() {
-		debugger;
-		let scrolledAmount = this.document.body.scrollTop;
-		console.log(scrolledAmount);
-		if (scrolledAmount == 0) {
-			this.store.dispatch(new ChangeToolbatToComfortableModeAction());
-		} else if (scrolledAmount < 128) {
-			this.store.dispatch(new ChangeToolbatToCompactModeAction());
-		} else if (scrolledAmount > this.lastScroll) {
-			this.store.dispatch(new ChangeToolbatToSummaryModeAction());
-		} else {
-			this.store.dispatch(new ChangeToolbatToCompactModeAction());
-		}
-		this.lastScroll = this.document.body.scrollTop;
+		// of(1)
 	}
 	signout() {
 		this.store.dispatch(new SignoutAction());
