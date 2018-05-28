@@ -8,6 +8,7 @@ import { BehaviorSubject } from "rxjs";
 import { MatSidenav, MatSidenavContainer } from "@angular/material";
 
 import { ConfigModel, getAppConfig } from "@soushians/config";
+import { UserModel, getUserInfo } from "@soushians/user";
 
 import {
 	FeatureState,
@@ -36,6 +37,7 @@ import {
 	styleUrls: [ "./main.component.scss" ]
 })
 export class MainComponent {
+	user$: Observable<UserModel>;
 	progressStatus$: Observable<boolean>;
 	showSidebarMenu = new BehaviorSubject(true);
 	//user$: Observable<UserModel>;
@@ -51,6 +53,10 @@ export class MainComponent {
 
 	constructor(private store: Store<FeatureState>, private router: Router) {
 		this.store.dispatch(new ChangeSideNavMode("push"));
+		this.user$ = this.store.select((s) => (s as any).user.user.data);
+		this.user$.subscribe((data) => {
+			debugger;
+		});
 		this.showMainSidenav = this.store.select(getShowMainSidenav);
 		this.mainSidenavMode = this.store.select(getMainSideNavMode);
 		this.toolbarAnimationState = this.store.select(getLayoutToolbarMode);

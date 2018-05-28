@@ -3,6 +3,14 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Store } from "@ngrx/store";
 import { Location } from "@angular/common";
 import { Observable } from "rxjs/Observable";
+import { from } from "rxjs/observable/from";
+import { DOCUMENT } from "@angular/platform-browser";
+import { fromEvent } from "rxjs/observable/fromEvent";
+import { of } from "rxjs/observable/of";
+import { trigger, state, transition, style, animate } from "@angular/animations";
+
+import { UserModel } from "@soushians/user";
+import { LayoutConfigModel } from "@soushians/config";
 
 import * as fromLayout from "../../reducers";
 import {
@@ -16,20 +24,9 @@ import {
 	ChangeToolbatToSummaryModeAction
 } from "../../actions";
 import { FeatureState, getShowSecondSidebarStatus, getLayoutToolbar } from "../../reducers";
-import { trigger, state, transition, style, animate } from "@angular/animations";
-import { from } from "rxjs/observable/from";
-import { DOCUMENT } from "@angular/platform-browser";
-import { fromEvent } from "rxjs/observable/fromEvent";
 
 import { LayoutConfigurationService } from "../../services";
 import { State as toolbarState } from "../../reducers/toolbar.reducer";
-import { of } from "rxjs/observable/of";
-
-const menuState = {
-	comfortable: "comfortable",
-	compact: "compact",
-	summary: "summary"
-};
 
 @Component({
 	selector: "layout-toolbar",
@@ -38,7 +35,7 @@ const menuState = {
 	animations: [
 		trigger("toolbarAnimation", [
 			state(
-				menuState.comfortable,
+				"comfortable",
 				style({
 					backgroundColor: "rgba(119,181,63,1)",
 					color: "rgba(256,256,256,1)",
@@ -48,7 +45,7 @@ const menuState = {
 				})
 			),
 			state(
-				menuState.compact,
+				"compact",
 				style({
 					backgroundColor: "rgba(256,256,256,1)",
 					height: "128px",
@@ -57,7 +54,7 @@ const menuState = {
 				})
 			),
 			state(
-				menuState.summary,
+				"summary",
 				style({
 					backgroundColor: "rgba(256,256,256,1)",
 					height: "128px",
@@ -65,12 +62,12 @@ const menuState = {
 					boxShadow: "1px 1px 3px rgba(0,0,0,0.5)"
 				})
 			),
-			transition([ menuState.comfortable, " => ", menuState.compact ].join(""), animate("400ms ease-in")),
-			transition([ menuState.comfortable, " => ", menuState.summary ].join(""), animate("400ms ease-in")),
-			transition([ menuState.summary, " => ", menuState.compact ].join(""), animate("400ms ease-out")),
-			transition([ menuState.summary, " => ", menuState.comfortable ].join(""), animate("400ms ease-out")),
-			transition([ menuState.compact, " => ", menuState.comfortable ].join(""), animate("400ms ease-out")),
-			transition([ menuState.compact, " => ", menuState.summary ].join(""), animate("400ms ease-in"))
+			transition("comfortable => compact", animate("400ms ease-in")),
+			transition("comfortable => summary", animate("400ms ease-in")),
+			transition("summary => compact", animate("400ms ease-out")),
+			transition("summary => comfortable", animate("400ms ease-out")),
+			transition("compact => comfortable", animate("400ms ease-out")),
+			transition("compact => summary", animate("400ms ease-in"))
 		])
 	]
 })
@@ -78,8 +75,9 @@ export class ToolbarMenuComponent {
 	showSecondSidenav: Observable<boolean>;
 	@Input() showSidebarMenu;
 	@Input("app-config") app_config;
+	@Input() user: UserModel;
 	showMainSidenav: Observable<boolean>;
-	toolbarAnimationState: Observable<string>;
+	toolbarAnimationState: Observable<"comfortable" | "compact" | "summary">;
 	menuItems$: Observable<any[]>;
 	lastScroll: number;
 	config: toolbarState;
@@ -99,22 +97,20 @@ export class ToolbarMenuComponent {
 		this.toolbarAnimationState = this.store.select(fromLayout.getLayoutToolbarMode);
 		this.menuItems$ = this.configurationService.config$.map((config) => config.menuItems);
 		fromEvent(this.document.body, "scroll").subscribe(() => {
-			debugger;
 			let scrolledAmount = this.document.body.scrollTop;
+			// let scrollToTop = (scrolledAmount - this.lastScroll < 0) && (this.document.body.scrollHeight - ) ;
+			let scrollToTop = scrolledAmount - this.lastScroll < 0;
+			this.lastScroll = this.document.body.scrollTop;
 			if (scrolledAmount == 0) {
 				if (this.config.mode == "comfortable") return;
 				this.store.dispatch(new ChangeToolbatToComfortableModeAction());
-			} else if (scrolledAmount < 128) {
+			} else if (scrolledAmount < 128 || scrollToTop) {
 				if (this.config.mode == "compact") return;
 				this.store.dispatch(new ChangeToolbatToCompactModeAction());
-			} else if (scrolledAmount > this.lastScroll) {
+			} else {
 				if (this.config.mode == "summary") return;
 				this.store.dispatch(new ChangeToolbatToSummaryModeAction());
-			} else {
-				if (this.config.mode == "compact") return;
-				this.store.dispatch(new ChangeToolbatToCompactModeAction());
 			}
-			this.lastScroll = this.document.body.scrollTop;
 		});
 	}
 

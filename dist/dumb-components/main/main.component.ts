@@ -8,6 +8,7 @@ import { BehaviorSubject } from "rxjs";
 import { MatSidenav, MatSidenavContainer } from "@angular/material";
 
 import { ConfigModel, getAppConfig } from "@soushians/config";
+import { UserModel, getUserInfo } from "@soushians/user";
 
 import {
 	FeatureState,
@@ -32,10 +33,11 @@ import {
 
 @Component({
 	selector: "layout-main",
-	template: `<div #mainSideNav [className]="toolbarAnimationState | async">   <!-- <mat-progress-bar *ngIf='progressStatus$ | async' color="primary" mode="query"></mat-progress-bar> -->   <layout-toolbar [showSidebarMenu]='showSidebarMenu | async' [app-config]="app_config"></layout-toolbar>      <mat-sidenav-container id="layout-sidnav">     <mat-sidenav [mode]="mainSidenavMode | async" [opened]='showMainSidenav | async' #sidebar (closedStart)="onSidebarClosedStart()">       <mat-nav-list>         <ngs-layout-main-menu [authenticated]='showSidebarMenu' (closeSidebar)="sidebar.close()" (click)="onSecondSidebarClosedStart()"></ngs-layout-main-menu>       </mat-nav-list>     </mat-sidenav>     <!-- <mat-sidenav [mode]="secondSidenavMode | async" [opened]='showSecondSidenav | async' (closedStart)="onSecondSidebarClosedStart()"       position="end" #second_sidebar class="second_sidebar">       <mat-nav-list fxLayout='column'>       </mat-nav-list>     </mat-sidenav> -->     <div fxFlexLayout='column' id="app-main-container" fxLayoutAlign='center center'>       <div fxFlex='0 0 100'>         <router-outlet></router-outlet>         {{toolbarAnimationState | async}}         <footer>           <app-footer></app-footer>         </footer>       </div>     </div>   </mat-sidenav-container> </div>`,
+	template: `<div #mainSideNav [className]="toolbarAnimationState | async">   <!-- <mat-progress-bar *ngIf='progressStatus$ | async' color="primary" mode="query"></mat-progress-bar> -->   <layout-toolbar [user]="user$ | async" [showSidebarMenu]='showSidebarMenu | async' [app-config]="app_config"></layout-toolbar>      <mat-sidenav-container id="layout-sidnav">     <mat-sidenav [mode]="mainSidenavMode | async" [opened]='showMainSidenav | async' #sidebar (closedStart)="onSidebarClosedStart()">       <mat-nav-list>         <ngs-layout-main-menu [authenticated]='showSidebarMenu' (closeSidebar)="sidebar.close()" (click)="onSecondSidebarClosedStart()"></ngs-layout-main-menu>       </mat-nav-list>     </mat-sidenav>     <!-- <mat-sidenav [mode]="secondSidenavMode | async" [opened]='showSecondSidenav | async' (closedStart)="onSecondSidebarClosedStart()"       position="end" #second_sidebar class="second_sidebar">       <mat-nav-list fxLayout='column'>       </mat-nav-list>     </mat-sidenav> -->     <div fxFlexLayout='column' id="app-main-container" fxLayoutAlign='center center'>       <div fxFlex='0 0 100'>         <router-outlet></router-outlet>         <footer>           <app-footer></app-footer>         </footer>       </div>     </div>   </mat-sidenav-container> </div>`,
 	styles: [`#purchase-fab-button { 	position: fixed; 	bottom: 23px; 	left: 31px; }  md-progress-bar { 	position: absolute !important; } .with-margin #app-main-container { 	margin-top: 25px; 	padding-right: 25px; 	padding-left: 25px; }  .second_sidebar { 	width: 380px; }  .more-detail { 	margin: 8px; 	box-sizing: border-box; 	padding: 10px; 	text-align: center; 	width: 96%; 	border: 1px solid #dedede; 	outline: 0; 	cursor: pointer; 	transition: all .3s ease; 	&:hover { 		background: #eee; 	} }`]
 })
 export class MainComponent {
+	user$: Observable<UserModel>;
 	progressStatus$: Observable<boolean>;
 	showSidebarMenu = new BehaviorSubject(true);
 	//user$: Observable<UserModel>;
@@ -51,6 +53,10 @@ export class MainComponent {
 
 	constructor(private store: Store<FeatureState>, private router: Router) {
 		this.store.dispatch(new ChangeSideNavMode("push"));
+		this.user$ = this.store.select((s) => (s as any).user.user.data);
+		this.user$.subscribe((data) => {
+			debugger;
+		});
 		this.showMainSidenav = this.store.select(getShowMainSidenav);
 		this.mainSidenavMode = this.store.select(getMainSideNavMode);
 		this.toolbarAnimationState = this.store.select(getLayoutToolbarMode);

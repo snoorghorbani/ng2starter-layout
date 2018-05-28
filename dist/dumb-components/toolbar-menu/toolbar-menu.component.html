@@ -14,24 +14,24 @@
     <button mat-icon-button type="button" (click)="toggleSecondSidebar()" fxFlex="nogrow" fxLayoutAlign="center center">
       <mat-icon>notifications</mat-icon>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="toolbarMenu1">
+    <button *ngIf="user" mat-icon-button [matMenuTriggerFor]="toolbarMenu1">
       <mat-icon>account_circle</mat-icon>
     </button>
+        <mat-menu #toolbarMenu1>
+          <button routerLink='/user/panel' mat-menu-item>
+            <mat-icon>fingerprint</mat-icon>
+            <span>{{user?.Username}}</span>
+          </button>
+          
+          <button (click)='signout()' mat-menu-item>
+            <mat-icon>exit_to_app</mat-icon>
+            <span>خروج</span>
+          </button>
+        </mat-menu>
     <button mat-icon-button (click)='goback()'>
       <mat-icon>arrow_back</mat-icon>
     </button>
     
-    <mat-menu #toolbarMenu1>
-      <button routerLink='/user/panel' mat-menu-item>
-        <mat-icon>fingerprint</mat-icon>
-        <span>پنل کاربری</span>
-      </button>
-      
-      <button (click)='signout()' mat-menu-item>
-        <mat-icon>exit_to_app</mat-icon>
-        <span>خروج</span>
-      </button>
-    </mat-menu>
   </mat-toolbar-row>
   <mat-toolbar-row>
     <button mat-button 

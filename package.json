@@ -1,10 +1,17 @@
 {
 	"name": "@soushians/layout",
-	"version": "6.0.102",
+	"version": "6.0.103",
 	"description": "",
-	"keywords": [ "Angular", "Starter", "MEAN", "MongoDB" ],
+	"keywords": [
+		"Angular",
+		"Starter",
+		"MEAN",
+		"MongoDB"
+	],
 	"main": "lib/index.js",
-	"typings": [ "./lib/index.d.ts" ],
+	"typings": [
+		"./lib/index.d.ts"
+	],
 	"scripts": {
 		"prepublish": "npm run clean-all && npm run build && npm run clean",
 		"watch": "tsc -p src -w",
@@ -16,27 +23,14 @@
 		"build": "gulp &&  npm run transpile && npm run package && npm run minify",
 		"fake_publish": "npm run clean-all && gulp && npm run transpile  && gulp fake-publish"
 	},
-	"dependencies": {},
-	"peerDependencies": {
-		"@soushians/starter": "2.x.x"
+	"dependencies": {
+		"@angular/material": "^6.1.0",
+		"gulp": "^4.0.0",
+		"gulp-inline-ng2-template": "^4.1.0",
+		"rimraf": "^2.6.2"
 	},
-	"devDependencies": {
-		"@soushians/infra": "^2.x.x",
-		"@soushians/shared": "^2.x.x",
-		"@soushians/config": "^2.x.x",
-		"@ngrx/effects": "^4.x.x",
-		"@ngrx/router-store": "^4.x.x",
-		"@ngrx/store": "^4.x.x",
-		"@ngrx/store-devtools": "^4.x.x",
-		"rxjs": "^5.x.x",
-		"@types/node": "^9.4.x",
-		"gulp": "^4.x.x",
-		"gulp-copy": "^1.x.x",
-		"gulp-inline-ng2-template": "^4.1.x",
-		"rimraf": "^2.6.2",
-		"rollup": "^0.55.x",
-		"typescript": "^2.5.x"
-	},
+	"peerDependencies": {},
+	"devDependencies": {},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/snoorghorbani/ng2starter-layout.git"

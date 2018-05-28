@@ -23,8 +23,6 @@ import {
 	MatDatepickerModule,
 	MatProgressBarModule
 } from "@angular/material";
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { LayoutReducers } from "./reducers";
 import {
@@ -38,10 +36,12 @@ import {
 } from "./dumb-components";
 import { LayoutConfigurationService } from "./services";
 import { MODULE_CONFIG_TOKEN, LayoutModuleConfig } from "./layout.config";
+import { BrowserModule } from "@angular/platform-browser";
 
 @NgModule({
 	imports: [
 		CommonModule,
+		BrowserModule,
 		RouterModule,
 		FormsModule,
 		HttpClientModule,
@@ -61,9 +61,7 @@ import { MODULE_CONFIG_TOKEN, LayoutModuleConfig } from "./layout.config";
 		MatToolbarModule,
 		MatDatepickerModule,
 		MatProgressBarModule,
-		BrowserModule,
-		RouterModule,
-		BrowserAnimationsModule
+		RouterModule
 	],
 	declarations: [
 		MainMenuComponent,
